@@ -20,12 +20,18 @@ public class mainrequirmentsuniversities {
 
 	public static void main(String[] args) {
 		
-	
+		  Scanner scanner = new Scanner(System.in);
 		try {
 			
-	        String url = "jdbc:sqlserver://localhost:1433;" +
-	    				"databaseName=UniversityInOman;" +
-	    				"encrypt=true;" + "trustServerCertificate=true";
+			System.out.println("Enter database name to check if avaialable");
+			String url = "jdbc:sqlserver://localhost:1433;" +
+			"databaseName="+scanner.nextLine()+";" +
+			"encrypt=true;" + "trustServerCertificate=true";
+			
+			
+//	        String url = "jdbc:sqlserver://localhost:1433;" +
+//	    				"databaseName=UniversityInOman;" +
+//	    				"encrypt=true;" + "trustServerCertificate=true";
 	            String username = "sa";
 	            String password = "root";
 	            Connection conn = DriverManager.getConnection(url, username, password);
@@ -65,7 +71,7 @@ public class mainrequirmentsuniversities {
 			      
 			      st.execute(unviQERY);
             }
-            Scanner scanner = new Scanner(System.in);
+          
             System.out.println("Enter country you want to search");
             
            
