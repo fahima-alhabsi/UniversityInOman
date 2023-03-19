@@ -7,6 +7,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/HP/Downloads/mssql-jdbc-11.2.1.jre17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/HP/Downloads/java-json.jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/gson-1.7-sources.jar/gson-1.7-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/json-20230227.jar"/>
+	<classpathentry kind="lib" path="C:/Users/HP/Downloads/gson-2.10.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

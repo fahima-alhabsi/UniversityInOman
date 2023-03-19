@@ -2,6 +2,7 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -48,6 +50,10 @@ public class mainrequirmentsuniversities {
 		} else {
 		System.out.println("Table universities Exists");
 		}
+		
+		
+		
+		
 		BufferedReader reader = new BufferedReader(
 		new FileReader("C:\\Users\\HP\\eclipse-workspace\\JDBCRequirementsUniversitiesProject\\university.txt"));
 		StringBuilder jsonString = new StringBuilder();
@@ -64,7 +70,10 @@ public class mainrequirmentsuniversities {
 //		String country = university.getString("country");
 //		String unviQERY = "insert into universities VALUES ('" + name + "','" + country + "')";
 //		st.execute(unviQERY);
+		
+
 		}
+		
 		switch (MainMenuResponce.toLowerCase()) {
 		case "a"://Search by country name"
 		System.out.println("enter Country name ");
@@ -77,33 +86,102 @@ public class mainrequirmentsuniversities {
 		showUnviSet(conn, sug);
 		break;
 		case "c"://backup DB
+			
+			
+			String backupPath = "C:\\Users\\HP\\eclipse-workspace\\JDBCRequirementsUniversitiesProject\\backups.bak"; // specify the path for the backup file
+			 String backupSql = "BACKUP DATABASE UniversityInOman TO DISK = '" + backupPath + "'";
+			
+			st.execute(backupSql);
+			 System.out.println("Database backup created at " + backupPath);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		break;
 		case "d"://remove table
-		System.out.println("select whcih table form below to delete");
-		ResultSet rs = st.executeQuery("SELECT TABLE_NAME FROM universities");
-		  while (rs.next()) {
-		System.out.println(rs.getString("TABLE_NAME"));
-		}
-		System.out.println("---------------------------------------------------------------------");
-		//st.execute("");
+			System.out.println("which table you want to delete?");
+			ResultSet rs = st.executeQuery(
+					"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';");
+			ArrayList<String> tablesList = new ArrayList<>();
+			int i = 0;
+			while (rs.next()) {
+				i++;
+				System.out.println(i + ") " + rs.getString("TABLE_NAME"));
+				tablesList.add(rs.getString("TABLE_NAME"));
+			}
+			System.out.println();
+			System.out.println("chosse the number of table you want to delete");
+			int choise = scan.nextInt();
+			System.out.println("table is deleted you can checK your SQL ");
+			scan.nextLine();
+			System.out.println("-------------------------------------------------");
+			st.execute("drop table " + tablesList.get(choise - 1));
+			
+             
 		break;
 		case "e":// show all UNVIs
+			
+			
+		
+			
+			
 		break;
 		case "f"://fetch data
 		break;
 		case "g"://search data by colum name
+			
+			System.out.println("Enter the column name to search for:");
+		    String columnName = scan.nextLine();
+		    System.out.println("Enter the search value:");
+		    String searchValue = scan.nextLine();
+
+		    String sql = "SELECT * FROM universities WHERE " + columnName + " = ?";
+		    PreparedStatement ps = conn.prepareStatement(sql);
+		    ps.setString(1, searchValue);
+		    ResultSet r = ps.executeQuery();
+
+		    // Print the results
+		    while (r.next()) {
+		        System.out.println(r.getString("name") + " - " + r.getString("country"));
+		    }
+		    
+			
 		break;
 		case "h"://write data to file
-		break;
+			
+		
+		    try (PrintWriter writer = new PrintWriter("universities.txt")) {
+		        String w = "SELECT * FROM universities";
+		        ResultSet R = st.executeQuery(w);
+		        while (R.next()) {
+		            writer.println(R.getInt("id") + ", " + R.getString("name") + ", " + R.getString("country"));
+		        }
+		        System.out.println("Data has been written to universities.txt");
+		    } catch (Exception e) {
+		        System.err.println("Error writing data to file: " + e.getMessage());
+		    }
+		    break;
+			
+			
+		
 		case "x"://exit
-		System.out.println("Are you sure you want to exit? yes/no");
-		if (scan.nextLine().toLowerCase().equals("no")) {
-		System.out.println("\t\tstarting of the program");
-		} else if (scan.nextLine().toLowerCase().equals("yes")) {
-		System.out.println("Exit the program");
-		programFlag = false;
-		}
-		break;
+			System.out.println("Are you sure you want to exit? yes/no");
+			String userChoice = scan.nextLine().toLowerCase();
+			if (userChoice.equals("no")) {
+			    System.out.println("\t\tstarting of the program");
+			} else if (userChoice.equals("yes")) {
+			    System.out.println(" Thank You See You Soon");
+			    programFlag = false;
+			}
+			break;
 		}
 		}
 		} catch (Exception e) {
@@ -135,7 +213,7 @@ public class mainrequirmentsuniversities {
 		}
 		}
 		else {
-		System.out.println("no data found ");
+		System.out.println("No data found ");
 		}
 		}
 		
