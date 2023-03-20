@@ -85,8 +85,8 @@ public class mainrequirmentsuniversities {
 		String sug = "select * from universities WHERE Country IN ( 'India', 'Oman','Canada') ";
 		showUnviSet(conn, sug);
 		break;
+		
 		case "c"://backup DB
-			
 			
 			String backupPath = "C:\\Users\\HP\\eclipse-workspace\\JDBCRequirementsUniversitiesProject\\backups.bak"; // specify the path for the backup file
 			 String backupSql = "BACKUP DATABASE UniversityInOman TO DISK = '" + backupPath + "'";
@@ -94,18 +94,8 @@ public class mainrequirmentsuniversities {
 			st.execute(backupSql);
 			 System.out.println("Database backup created at " + backupPath);
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		break;
+		
 		case "d"://remove table
 			System.out.println("which table you want to delete?");
 			ResultSet rs = st.executeQuery(
@@ -128,10 +118,11 @@ public class mainrequirmentsuniversities {
              
 		break;
 		case "e":// show all UNVIs
-			
-			
+			System.out.println(" those are all universities available");
+			String availableUNI = "select * from universities";
 		
-			
+			//st.executeUpdate(availableUNI);
+			showUnviSet(conn, availableUNI);
 			
 		break;
 		case "f"://fetch data
@@ -152,12 +143,11 @@ public class mainrequirmentsuniversities {
 		    while (r.next()) {
 		        System.out.println(r.getString("name") + " - " + r.getString("country"));
 		    }
-		    
-			
+		   
 		break;
+		
 		case "h"://write data to file
 			
-		
 		    try (PrintWriter writer = new PrintWriter("universities.txt")) {
 		        String w = "SELECT * FROM universities";
 		        ResultSet R = st.executeQuery(w);
